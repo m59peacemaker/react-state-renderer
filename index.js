@@ -12,6 +12,10 @@ function ReactStateRenderer(options) {
     return {
       render: function(context, cb) {
         var elem = React.createElement(context.template);
+
+        // data from resolve
+        elem.props.stateContent = context.content;
+
         React.render(elem, context.element, function() {
           cb(null, context.element);
         });
