@@ -18,12 +18,11 @@ function ReactStateRenderer(options) {
 
     return {
       render: function(context, cb) {
-        console.log(getProps(context).state.params);
         var Elem = React.createElement(context.template, getProps(context));
+        // this cb really ought to be the 3rd params of React.render, but it's a hard life
         cb(null, React.render(Elem, context.element));
       },
       reset: function reset(context, cb) {
-        console.log(getProps(context).state.params)
         context.domApi.replaceProps(getProps(context), cb);
       },
       destroy: function(domApi, cb) {
