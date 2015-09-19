@@ -5,7 +5,7 @@ module.exports = function(router) {
   return React.createClass({
     componentWillMount: function() {
       this.stateChangeEndListener = function() {
-        var isActive = router.stateIsActive(this.props.sref);
+        var isActive = router.stateIsActive(this.props.sref, this.props.sparams);
         this.setState({isActive: isActive});
       }.bind(this);
       router.on('stateChangeEnd', this.stateChangeEndListener);

@@ -9,29 +9,30 @@ function ReactStateRenderer(options) {
     // dunno where to put this
     router.Link = Link(router);
 
+    function getProps(context) {
+      return {foo: 1231231, state: {
+        params: context.parameters || {},
+        data: context.content
+      }};
+    }
+
     return {
       render: function(context, cb) {
-        var elem = React.createElement(context.template);
-
-        // data from resolve
-        elem.props.stateContent = context.content;
-
-        React.render(elem, context.element, function() {
-          cb(null, context.element);
-        });
+        console.log(getProps(context).state.params);
+        var Elem = React.createElement(context.template, getProps(context));
+        cb(null, React.render(Elem, context.element));
       },
       reset: function reset(context, cb) {
-        // WUT
-        console.log(context);
-        cb();
+        console.log(getProps(context).state.params)
+        context.domApi.replaceProps(getProps(context), cb);
       },
       destroy: function(domApi, cb) {
-        React.unmountComponentAtNode(domApi);
+        React.unmountComponentAtNode(React.findDOMNode(domApi));
         cb();
       },
       getChildElement: function(domApi, cb) {
         // is this very wrong?
-        cb(null, domApi.querySelector('ui-view'));
+        cb(null, React.findDOMNode(domApi).querySelector('ui-view'));
       }
     };
   }
